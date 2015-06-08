@@ -1,0 +1,50 @@
+{
+  "name": "coloredcoin-scanner",
+  "version": "0.0.1",
+  "description": "Colored coin scanner",
+  "keywords": [],
+  "bugs": {
+    "url": "https://github.com/chromaway/coloredcoin-scanner/issues"
+  },
+  "license": "MIT",
+  "author": "Chromaway AB",
+  "contributors": [
+    {
+      "name": "Kirill Fomichev",
+      "email": "fanatid@ya.ru"
+    }
+  ],
+  "files": [
+    "bin",
+    "lib",
+    "LICENSE",
+    "README.md"
+  ],
+  "main": "./bin/cli.js",
+  "bin": {
+    "ccscanner": "./bin/cli.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/chromaway/coloredcoin-scanner"
+  },
+  "scripts": {
+    "lint": "standard"
+  },
+  "dependencies": {
+    "bitcoind-rpc": "=0.2.1",
+    "bluebird": "=2.9.27",
+    "coloredcoinjs-lib": "git://github.com/fanatid/coloredcoinjs-lib#v0.4.0",
+    "js-yaml": "=3.3.1",
+    "progress": "=1.1.8",
+    "ready-mixin": "0.0.5",
+    "yargs": "=3.10.0"
+  },
+  "devDependencies": {
+    "standard": "^4.0.1"
+  },
+  "private": true,
+  "standard": {
+    "ignore": []
+  }
+}

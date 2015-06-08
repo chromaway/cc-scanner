@@ -1,0 +1,6 @@
+coverage
+node_modules
+
+config/*
+!config/default.yml
+npm-debug.log

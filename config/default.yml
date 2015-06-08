@@ -1,0 +1,9 @@
+sqlite:
+  filename: coloredcoin-scanner.sqlite
+
+bitcoind: # config for https://github.com/bitpay/bitcoind-rpc
+  protocol: http
+  user: user
+  pass: pass
+  host: localhost
+  port: 18332
