@@ -51,7 +51,7 @@ var scandata = new ScanData({
 function mainLoop () {
   Promise.all([
     bitcoind.getLatest(),
-    scandata.getLastHeight()
+    scandata.getLatest()
   ])
   .spread(function (latestBitcoind, latestDB) {
     if (latestDB.hash === latestBitcoind.hash) {
@@ -76,5 +76,12 @@ function mainLoop () {
 Promise.all([bitcoind.ready, scandata.ready])
 .then(function () {
   console.log('database opened')
-  mainLoop()
+
+  scandata.getLatest()
+    .then(function (latest) {
+      if (latest.height > 0) {
+        return scandata.undoTo(latest.height)
+      }
+    })
+    .then(mainLoop)
 })
