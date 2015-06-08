@@ -3,4 +3,5 @@ node_modules
 
 config/*
 !config/default.yml
+coloredcoin-scanner.sqlite
 npm-debug.log

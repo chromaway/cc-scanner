@@ -36,6 +36,7 @@
     "bluebird": "=2.9.27",
     "coloredcoinjs-lib": "git://github.com/fanatid/coloredcoinjs-lib#v0.4.0",
     "js-yaml": "=3.3.1",
+    "lodash": "=3.9.3",
     "progress": "=1.1.8",
     "ready-mixin": "0.0.5",
     "yargs": "=3.10.0"

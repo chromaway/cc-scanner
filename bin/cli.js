@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+var _ = require('lodash')
 var yargs = require('yargs')
 var fs = require('fs')
 var Yaml = require('js-yaml')
@@ -6,7 +7,6 @@ var Promise = require('bluebird')
 var ProgressBar = require('progress')
 
 var Bitcoind = require('../lib/bitcoind')
-var ColorData = require('../lib/colordata')
 var ScanData = require('../lib/scandata')
 
 var argv = yargs
@@ -28,21 +28,52 @@ Promise.onPossiblyUnhandledRejection(function (err) {
   process.exit(1)
 })
 
+var bar = new ProgressBar(
+  'blocks: :bCurr / :bTotal, transactions for current block: :tCurr / :tTotal', {total: Infinity})
+var barTokens = {bCurr: 0, bTotal: 0, tCurr: 0, tTotal: 0}
+
+function updateProgress (tokens) {
+  barTokens = _.extend(barTokens, tokens)
+  bar.tick(barTokens)
+}
+
 var config = Yaml.safeLoad(fs.readFileSync(argv.config, 'utf-8'))
 var bitcoind = new Bitcoind(config.bitcoind)
-var colordata = new ColorData({filename: config.sqlite.filename})
-var scandata = new ScanData(colordata, {filename: config.sqlite.filename})
-var bar = new ProgressBar('Scan progress: :persent, blocks: :current / :total, tx: :currentTx / :totalTx', {
-  total: 0
+var scandata = new ScanData({
+  bitcoind: bitcoind,
+  filename: config.sqlite.filename,
+  updateProgress: updateProgress
 })
 
 /**
  * @return {Promise}
  */
 function mainLoop () {
+  Promise.all([
+    bitcoind.getLatest(),
+    scandata.getLastHeight()
+  ])
+  .spread(function (latestBitcoind, latestDB) {
+    if (latestDB.hash === latestBitcoind.hash) {
+      return Promise.delay(1000)
+    }
+
+    updateProgress({bCurr: latestDB.height, bTotal: latestBitcoind.height})
+
+    if (latestDB.height >= latestBitcoind.height) {
+      return scandata.undoTo(latestBitcoind.height)
+    }
+
+    var height = latestDB.height + 1
+    return bitcoind.getBlock(height)
+      .then(function (block) {
+        return scandata.scanBlock(block, height)
+      })
+  })
+  .then(mainLoop)
 }
 
-Promise.all([bitcoind.ready, colordata.ready, scandata.ready])
+Promise.all([bitcoind.ready, scandata.ready])
 .then(function () {
   console.log('database opened')
   mainLoop()
