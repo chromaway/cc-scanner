@@ -1,9 +1,9 @@
 postgresql:
-  url: postgres://postgres@localhost/coloredcoin-scanner
+  url: postgres://postgres@localhost/cc-scanner
 
 bitcoind: # config for https://github.com/bitpay/bitcoind-rpc
   protocol: http
-  user: user
-  pass: pass
+  user: bitcoinrpc
+  pass: password_to_your_bitcoind
   host: localhost
   port: 18332
