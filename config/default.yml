@@ -1,5 +1,5 @@
-sqlite:
-  filename: coloredcoin-scanner.sqlite
+postgresql:
+  url: postgres://postgres@localhost/coloredcoin-scanner
 
 bitcoind: # config for https://github.com/bitpay/bitcoind-rpc
   protocol: http

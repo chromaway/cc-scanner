@@ -41,7 +41,7 @@ var config = Yaml.safeLoad(fs.readFileSync(argv.config, 'utf-8'))
 var bitcoind = new Bitcoind(config.bitcoind)
 var scandata = new ScanData({
   bitcoind: bitcoind,
-  filename: config.sqlite.filename,
+  db: config.postgresql,
   updateProgress: updateProgress
 })
 
