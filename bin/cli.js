@@ -1,4 +1,6 @@
 #!/usr/bin/env node
+'use strict'
+
 var _ = require('lodash')
 var yargs = require('yargs')
 var fs = require('fs')
