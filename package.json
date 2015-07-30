@@ -39,7 +39,8 @@
     "lodash": "=3.9.3",
     "progress": "=1.1.8",
     "ready-mixin": "0.0.5",
-    "yargs": "=3.10.0"
+    "yargs": "=3.10.0",
+    "odd-storage": "~0.1.0"
   },
   "devDependencies": {
     "standard": "^4.0.1"
