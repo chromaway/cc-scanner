@@ -1,5 +1,5 @@
 postgresql:
-  url: postgres://postgres@localhost/cc-scanner
+  url: postgres://vagrant:somepassword@localhost/cc_scanner
 
 bitcoind: # config for https://github.com/bitpay/bitcoind-rpc
   protocol: http
