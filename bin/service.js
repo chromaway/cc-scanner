@@ -33,10 +33,22 @@ function defineAPIcall(name, computeFn, formatFn) {
       }
     })
   })
+  api.get(name, function (req, res) {
+    computeFn(req.query).done(
+      function (result) { res.json(formatFn(result))},
+      function (err) { 
+        console.error(err)
+          res.status(500).json({error: err.toString()}) 
+        }
+      )
+  })
 }
 
+
+
 defineAPIcall('getTxColorValues', function (body) {
-  return scandata.getTxColorValues(request.txid, request.outputs || null)
+  return scandata.getTxColorValues(request.txid, request.outputs || null,
+                                   request.color_kernel || 'epobc')
     .then(function (result) {
       if (result.outputs && result.outputs.length > 0) {
         var outputColorValues = result.outputs[0].outputs
