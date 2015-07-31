@@ -33,6 +33,7 @@
   },
   "dependencies": {
     "bitcoind-rpc": "=0.2.1",
+    "bitcore": "=0.12.9"
     "bluebird": "=2.9.27",
     "body": "^5.1.0",
     "coloredcoinjs-lib": "git://github.com/fanatid/coloredcoinjs-lib#v0.4.0",
