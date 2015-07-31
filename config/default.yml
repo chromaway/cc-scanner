@@ -7,3 +7,6 @@ bitcoind: # config for https://github.com/bitpay/bitcoind-rpc
   pass: password_to_your_bitcoind
   host: localhost
   port: 18332
+
+service:
+  port: 4445
