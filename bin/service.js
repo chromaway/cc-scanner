@@ -14,7 +14,6 @@ app.options('*', cors(cors_options));
 
 var api = express.Router();
 
-app.use('/api', api);
 
 var scandata = null;
 
@@ -37,7 +36,7 @@ function defineAPIcall(name, computeFn, formatFn) {
     computeFn(req.query).done(
       function (result) { res.json(formatFn(result))},
       function (err) { 
-        console.error(err)
+        console.error(err.stack || err)
           res.status(500).json({error: err.toString()}) 
         }
       )
@@ -46,7 +45,7 @@ function defineAPIcall(name, computeFn, formatFn) {
 
 
 
-defineAPIcall('getTxColorValues', function (body) {
+defineAPIcall('/getTxColorValues', function (request) {
   return scandata.getTxColorValues(request.txid, request.outputs || null,
                                    request.color_kernel || 'epobc')
     .then(function (result) {
@@ -84,7 +83,7 @@ defineAPIcall('getTxColorValues', function (body) {
 })
 
 
-function identity (x) { return x }
+app.use('/api', api);
 
 exports.startServer = function (opts) {
   scandata = opts.scandata;
