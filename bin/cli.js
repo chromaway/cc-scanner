@@ -10,6 +10,7 @@ var ProgressBar = require('progress')
 
 var Bitcoind = require('../lib/bitcoind')
 var ScanData = require('../lib/scandata')
+var service = require('./service')
 
 var argv = yargs
   .usage('Usage: $0 [-h] [-c CONFIG]')
@@ -84,6 +85,12 @@ Promise.all([bitcoind.ready, scandata.ready])
       if (latest.height > 0) {
         return scandata.undoTo(latest.height)
       }
+    })
+    .then(function () {
+        if (config.service)
+        return service.startServer({
+          scandata: scandata,
+          port: config.service.port || 4445})
     })
     .then(mainLoop)
 })
