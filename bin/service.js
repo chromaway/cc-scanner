@@ -43,7 +43,11 @@ function defineAPIcall(name, computeFn, formatFn) {
   })
 }
 
-
+defineAPIcall('/getAllColoredCoins', function (request) {
+  return scandata.getAllColoredCoins(request.color_desc)
+}, function (coins) {
+  return {coins: coins}
+})
 
 defineAPIcall('/getTxColorValues', function (request) {
   return scandata.getTxColorValues(request.txid, request.outputs || null,
