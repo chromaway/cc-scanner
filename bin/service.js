@@ -25,7 +25,7 @@ function defineAPIcall(name, computeFn, formatFn) {
         computeFn(body).done(
           function (result) { res.json(formatFn(result))},
           function (err) { 
-            console.error(err)
+            console.error(err.stack || err)
             res.status(500).json({error: err.toString()}) 
           }
         );
