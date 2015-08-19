@@ -1,6 +1,6 @@
 {
   "name": "cc-scanner",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Colored coin scanner",
   "keywords": [],
   "bugs": {
@@ -10,49 +10,63 @@
   "author": "Chromaway AB",
   "contributors": [
     {
+      "name": "Alex Mizrahi",
+      "email": "alex.mizrahi@gmail.com"
+    },
+    {
+      "name": "Henrik Hjelte",
+      "email": "henrik@henrikhjelte.com"
+    },
+    {
       "name": "Kirill Fomichev",
       "email": "fanatid@ya.ru"
     }
   ],
   "files": [
     "bin",
-    "lib",
+    "src",
     "LICENSE",
     "README.md"
   ],
   "main": "./bin/cli.js",
-  "bin": {
-    "ccscanner": "./bin/cli.js"
-  },
   "repository": {
     "type": "git",
     "url": "https://github.com/chromaway/cc-scanner"
   },
   "scripts": {
-    "lint": "standard"
+    "prepublish": "npm run clean && npm run compile",
+    "clean": "rm -f lib/*.js bin/cli.js",
+    "compile": "npm run compile:bin && npm run compile:src",
+    "compile:bin": "babel bin/cli.es6.js -o bin/cli.js --optional runtime -s inline",
+    "compile:src": "mkdir -p lib && babel src -d lib --optional runtime -s inline",
+    "lint": "eslint bin/cli.es6.js src",
+    "watch": "npm run watch:bin & npm run watch:src",
+    "watch:bin": "babel bin/cli.es6.js -o bin/cli.js --optional runtime -s inline -w",
+    "watch:src": "mkdir -p lib && babel src -d lib --optional runtime -s inline -w"
   },
   "dependencies": {
-    "bitcoind-rpc": "=0.2.1",
-    "bitcore": "=0.12.9",
-    "bluebird": "=2.9.27",
+    "babel": "^5.8.21",
+    "babel-runtime": "^5.8.20",
+    "bitcoind-rpc": "^0.3.1",
+    "bitcore": "^0.12.15",
     "body": "^5.1.0",
-    "coloredcoinjs-lib": "git://github.com/fanatid/coloredcoinjs-lib#v0.4.0",
-    "cors": "^2.5.2",
-    "express": "^4.10.6",
-    "js-yaml": "=3.3.1",
-    "lodash": "=3.9.3",
-    "morgan": "^1.5.1",
-    "odd-storage": "~0.1.0",
-    "progress": "=1.1.8",
-    "ready-mixin": "0.0.5",
-    "send-data": "^3.3.3",
-    "yargs": "=3.10.0"
+    "coloredcoinjs-lib": "git://github.com/fanatid/coloredcoinjs-lib",
+    "cors": "^2.7.1",
+    "express": "^4.13.3",
+    "js-yaml": "^3.3.1",
+    "lodash": "^3.10.1",
+    "morgan": "^1.6.1",
+    "odd-storage": "^0.3.1",
+    "progress": "^1.1.8",
+    "ready-mixin": "^0.1.0",
+    "source-map-support": "^0.3.2",
+    "yargs": "^3.19.0"
   },
   "devDependencies": {
-    "standard": "^4.0.1"
+    "babel-eslint": "^4.0.10",
+    "eslint": "^1.1.0",
+    "eslint-config-standard": "^4.1.0",
+    "eslint-plugin-standard": "^1.2.0"
   },
-  "private": true,
-  "standard": {
-    "ignore": []
-  }
+  "private": true
 }

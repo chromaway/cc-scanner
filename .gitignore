@@ -1,6 +1,7 @@
-coverage
+lib
 node_modules
 
+bin/cli.js
 config/*
 !config/default.yml
 npm-debug.log
