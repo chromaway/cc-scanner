@@ -44,14 +44,19 @@ function defineAPIcall(name, computeFn, formatFn) {
 }
 
 defineAPIcall('/getAllColoredCoins', function (request) {
-  return scandata.getAllColoredCoins(request.color_desc)
+  return scandata.getAllColoredCoins(request.color)
 }, function (coins) {
   return {coins: coins}
 })
 
 defineAPIcall('/getTxColorValues', function (request) {
-  return scandata.getTxColorValues(request.txid, request.outputs || null,
-                                   request.color_kernel || 'epobc')
+  var outIndices = request.outIndices
+  if (!outIndices && request.outIndex)
+    outIndices = [request.outIndex]
+  if (outIndices === undefined)
+    outIndices = null 
+  return scandata.getTxColorValues(request.txId, outIndices,
+                                   request.colorKernel || 'epobc')
     .then(function (result) {
       if (result.outputs && result.outputs.length > 0) {
         var outputColorValues = result.outputs[0].outputs
@@ -82,7 +87,7 @@ defineAPIcall('/getTxColorValues', function (request) {
     })
 }, function (result) {
   return {
-    colorvalues: result
+    colorValues: result
   }
 })
 
