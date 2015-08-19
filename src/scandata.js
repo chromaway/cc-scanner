@@ -126,7 +126,7 @@ export default class ScanData {
    * @param {string} txId
    * @param {number[]} outIndices
    * @param {string} colorCode
-   * @return {Promise.<{inputs: ColorValue[][], outputs: ColorValue[][]}>}
+   * @return {Promise.<Array.<{cdef: IColorDefinition, outputs: ColorValue[]}>>}
    */
   async getTxColorValues (txId, outIndices, colorCode) {
     let rawtx = await this._bitcoind.getTx(txId)
@@ -138,7 +138,7 @@ export default class ScanData {
 
   /**
    * @param {string} colorDesc
-   * @return {Promise.<{txId: string, outIndex: number, value: string}[]>}
+   * @return {Promise.<{txId: string, outIndex: number, colorValue: *}[]>}
    */
   async getAllColoredCoins (colorDesc) {
     let colorId = await this._cdmanager.resolve(colorDesc, {autoAdd: false})
@@ -151,7 +151,7 @@ export default class ScanData {
       return {
         txId: row.txid,
         outIndex: row.oidx,
-        value: JSON.parse(row.value)
+        colorValue: JSON.parse(row.value)
       }
     })
   }
