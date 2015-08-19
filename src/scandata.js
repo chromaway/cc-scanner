@@ -141,11 +141,12 @@ export default class ScanData {
    * @return {Promise.<{txId: string, outIndex: number, colorValue: *}[]>}
    */
   async getAllColoredCoins (colorDesc) {
-    let colorId = await this._cdmanager.resolve(colorDesc, {autoAdd: false})
-    if (colorId === null) {
+    let cdef = await this._cdmanager.resolve(colorDesc, {autoAdd: false})
+    if (cdef === null) {
       throw new Error(`color not known: ${colorDesc}`)
     }
 
+    let colorId = cdef.getColorId()
     let rows = await this._storage.executeSQL(SQL.select.allCoins, [colorId])
     return rows.map((row) => {
       return {
