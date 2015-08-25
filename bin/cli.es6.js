@@ -10,7 +10,6 @@ import bitcore from 'bitcore'
 import Bitcoind from '../lib/bitcoind'
 import ScanData from '../lib/scandata'
 import { startServer } from '../lib/service'
-import { sleep } from '../lib/util'
 
 let argv = yargs
   .usage('Usage: $0 [-h] [-c CONFIG]')
@@ -67,7 +66,7 @@ Promise.resolve()
       ]
 
       if (latestBitcoind.hash === latestDB.hash) {
-        await sleep(1000)
+        await new Promise((resolve) => { setTimeout(resolve, 1000) })
         continue
       }
 

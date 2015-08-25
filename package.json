@@ -47,7 +47,7 @@
   "dependencies": {
     "babel": "^5.8.21",
     "babel-runtime": "^5.8.20",
-    "bitcoind-rpc": "^0.3.1",
+    "bitcoind-rpc-client": "^0.1.0",
     "bitcore": "^0.12.15",
     "body": "^5.1.0",
     "coloredcoinjs-lib": "git://github.com/fanatid/coloredcoinjs-lib",

@@ -1,7 +1,5 @@
-import RpcClient from 'bitcoind-rpc'
+import RpcClient from 'bitcoind-rpc-client'
 import initReadyPromise from 'ready-mixin'
-
-import { promisify } from './util'
 
 /**
  * @class Bitcoind
@@ -16,12 +14,8 @@ export default class Bitcoind {
     Promise.resolve()
       .then(async () => {
         this._bitcoind = new RpcClient(config)
-        this._getBlockCount = promisify(::this._bitcoind.getBlockCount)
-        this._getBlockHash = promisify(::this._bitcoind.getBlockHash)
-        this._getBlock = promisify(::this._bitcoind.getBlock)
-        this._getRawTransaction = promisify(::this._bitcoind.getRawTransaction)
 
-        let info = await promisify(::this._bitcoind.getInfo)()
+        let info = await this._bitcoind.getInfo()
         console.log('Connected to bitcoind! version: ' + info.result.version)
       })
       .then(() => { this._ready() }, (err) => { this._ready(err) })
@@ -35,10 +29,10 @@ export default class Bitcoind {
 
     let latest = {}
 
-    let ret = await this._getBlockCount()
+    let ret = await this._bitcoind.getBlockCount()
     latest.height = ret.result
 
-    ret = await this._getBlockHash(latest.height)
+    ret = await this._bitcoind.getBlockHash(latest.height)
     latest.hash = ret.result
 
     return latest
@@ -51,8 +45,8 @@ export default class Bitcoind {
   async getBlock (height) {
     await this.ready
 
-    let ret = await this._getBlockHash(height)
-    ret = await this._getBlock(ret.result, false)
+    let ret = await this._bitcoind.getBlockHash(height)
+    ret = await this._bitcoind.getBlock(ret.result, false)
     return ret.result
   }
 
@@ -63,7 +57,7 @@ export default class Bitcoind {
   async getTx (txId) {
     await this.ready
 
-    let ret = await this._getRawTransaction(txId)
+    let ret = await this._bitcoind.getRawTransaction(txId)
     return ret.result
   }
 }
