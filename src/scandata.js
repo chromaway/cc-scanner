@@ -39,7 +39,7 @@ let SQL = {
                 '  LIMIT 1',
     blockTxIds: 'SELECT txid FROM scan_data WHERE height = $1',
     allCoins: 'SELECT txid, oidx, value FROM cclib_data_values ' +
-              'INNER JOIN cclib_data_tx ON tx_pk = pk' +
+              'INNER JOIN cclib_data_tx ON tx_pk = pk ' +
               'WHERE color_id = $1'
   },
   remove: {
