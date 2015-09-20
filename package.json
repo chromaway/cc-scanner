@@ -48,7 +48,7 @@
     "babel": "^5.8.21",
     "babel-runtime": "^5.8.20",
     "bitcoind-rpc-client": "^0.1.0",
-    "bitcore": "^0.12.15",
+    "bitcore": "^0.13.3",
     "body": "^5.1.0",
     "coloredcoinjs-lib": "git://github.com/fanatid/coloredcoinjs-lib",
     "cors": "^2.7.1",
