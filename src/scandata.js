@@ -38,8 +38,9 @@ let SQL = {
                 '  ORDER BY height DESC ' +
                 '  LIMIT 1',
     blockTxIds: 'SELECT txid FROM scan_data WHERE height = $1',
-    allCoins: 'SELECT txid, oidx, value FROM cclib_data_values ' +
+    allCoins: 'SELECT cclib_data_tx.txid AS txid, oidx, value, out_address, height  FROM cclib_data_values ' +
               'INNER JOIN cclib_data_tx ON tx_pk = pk ' +
+              'INNER JOIN scan_data ON scan_data.txid = cclib_data_tx.txid ' +
               'WHERE color_id = $1'
   },
   remove: {
@@ -152,6 +153,8 @@ export default class ScanData {
       return {
         txId: row.txid,
         outIndex: row.oidx,
+        outAddress: row.out_address,
+        height: row.height,
         colorValue: JSON.parse(row.value)
       }
     })
