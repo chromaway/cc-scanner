@@ -39,10 +39,10 @@
     "compile": "npm run compile:bin && npm run compile:src",
     "compile:bin": "babel bin/cli.es6.js -o bin/cli.js --optional runtime -s inline",
     "compile:src": "mkdir -p lib && babel src -d lib --optional runtime -s inline",
-    "lint": "eslint bin/cli.es6.js src",
-    "watch": "npm run watch:bin & npm run watch:src",
-    "watch:bin": "babel bin/cli.es6.js -o bin/cli.js --optional runtime -s inline -w",
-    "watch:src": "mkdir -p lib && babel src -d lib --optional runtime -s inline -w"
+    "compile:watch": "npm run compile:watch:bin & npm run compile:watch:src",
+    "compile:watch:bin": "babel bin/cli.es6.js -o bin/cli.js --optional runtime -s inline -w",
+    "compile:watch:src": "mkdir -p lib && babel src -d lib --optional runtime -s inline -w",
+    "lint": "eslint bin/cli.es6.js src"
   },
   "dependencies": {
     "babel": "^5.8.21",

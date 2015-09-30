@@ -44,6 +44,8 @@ let scandata = new ScanData({
 
 Promise.resolve()
   .then(async () => {
+    if (global.gc) { setInterval(global.gc, 5 * 1000) }
+
     await* [bitcoind.ready, scandata.ready]
     console.log('database opened')
 
@@ -59,29 +61,31 @@ Promise.resolve()
       })
     }
 
-    while (true) {
+    async function next () {
       let [latestBitcoind, latestDB] = await* [
         bitcoind.getLatest(),
         scandata.getLatest()
       ]
 
       if (latestBitcoind.hash === latestDB.hash) {
-        await new Promise((resolve) => { setTimeout(resolve, 1000) })
-        continue
+        return setTimeout(next, 1000)
       }
 
       updateProgress({bCurr: latestDB.height, bTotal: latestBitcoind.height})
 
       if (latestDB.height >= latestBitcoind.height) {
         await scandata.undoTo(latestBitcoind.height)
-        continue
+      } else {
+        let height = latestDB.height + 1
+        let rawBlock = await bitcoind.getBlock(height)
+        let block = bitcore.Block.fromString(rawBlock)
+        await scandata.scanBlock(block, height)
       }
 
-      let height = latestDB.height + 1
-      let rawBlock = await bitcoind.getBlock(height)
-      let block = bitcore.Block.fromString(rawBlock)
-      await scandata.scanBlock(block, height)
+      next()
     }
+
+    next()
   })
   .catch((err) => {
     console.error(err.stack)

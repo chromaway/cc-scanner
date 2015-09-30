@@ -93,6 +93,9 @@ defineAPIcall('/getTxColorValues', async (request) => {
 
 app.use('/api', api)
 
+// app.use('/api/gc', (req, res) => { res.send(global.gc()) })
+// app.use('/api/mem', (req, res) => { res.send(process.memoryUsage()) })
+
 export function startServer (opts) {
   scandata = opts.scandata
   return new Promise((resolve, reject) => {
