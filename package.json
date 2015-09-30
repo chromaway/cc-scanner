@@ -37,11 +37,11 @@
     "prepublish": "npm run clean && npm run compile",
     "clean": "rm -f lib/*.js bin/cli.js",
     "compile": "npm run compile:bin && npm run compile:src",
-    "compile:bin": "babel bin/cli.es6.js -o bin/cli.js --optional runtime -s inline",
-    "compile:src": "mkdir -p lib && babel src -d lib --optional runtime -s inline",
+    "compile:bin": "babel bin/cli.es6.js -o bin/cli.js",
+    "compile:src": "mkdir -p lib && babel src -d lib",
     "compile:watch": "npm run compile:watch:bin & npm run compile:watch:src",
-    "compile:watch:bin": "babel bin/cli.es6.js -o bin/cli.js --optional runtime -s inline -w",
-    "compile:watch:src": "mkdir -p lib && babel src -d lib --optional runtime -s inline -w",
+    "compile:watch:bin": "babel bin/cli.es6.js -o bin/cli.js -w",
+    "compile:watch:src": "mkdir -p lib && babel src -d lib -w",
     "lint": "eslint bin/cli.es6.js src"
   },
   "dependencies": {

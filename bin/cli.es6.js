@@ -61,31 +61,29 @@ Promise.resolve()
       })
     }
 
-    async function next () {
+    while (true) {
       let [latestBitcoind, latestDB] = await* [
         bitcoind.getLatest(),
         scandata.getLatest()
       ]
 
       if (latestBitcoind.hash === latestDB.hash) {
-        return setTimeout(next, 1000)
+        await new Promise((resolve) => { setTimeout(resolve, 1000) })
+        continue
       }
 
       updateProgress({bCurr: latestDB.height, bTotal: latestBitcoind.height})
 
       if (latestDB.height >= latestBitcoind.height) {
         await scandata.undoTo(latestBitcoind.height)
-      } else {
-        let height = latestDB.height + 1
-        let rawBlock = await bitcoind.getBlock(height)
-        let block = bitcore.Block.fromString(rawBlock)
-        await scandata.scanBlock(block, height)
+        continue
       }
 
-      next()
+      let height = latestDB.height + 1
+      let rawBlock = await bitcoind.getBlock(height)
+      let block = bitcore.Block.fromString(rawBlock)
+      await scandata.scanBlock(block, height)
     }
-
-    next()
   })
   .catch((err) => {
     console.error(err.stack)
