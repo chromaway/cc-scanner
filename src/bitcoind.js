@@ -1,10 +1,12 @@
 import RpcClient from 'bitcoind-rpc-client'
-import initReadyPromise from 'ready-mixin'
+import { mixin } from 'core-decorators'
+import ReadyMixin from 'ready-mixin'
 
 /**
  * @class Bitcoind
  * @mixes ReadyMixin
  */
+@mixin(ReadyMixin)
 export default class Bitcoind {
   /**
    * @constructor
@@ -61,6 +63,3 @@ export default class Bitcoind {
     return ret.result
   }
 }
-
-let ReadyMixin = initReadyPromise(Promise)
-ReadyMixin(Bitcoind.prototype)

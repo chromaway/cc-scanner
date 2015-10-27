@@ -1,8 +1,9 @@
 import _ from 'lodash'
 import { PostgreSQL as PostgreSQLStorage } from 'odd-storage'
-import initReadyPromise from 'ready-mixin'
+import { mixin } from 'core-decorators'
+import ReadyMixin from 'ready-mixin'
 import cclib from 'coloredcoinjs-lib'
-import bitcore from 'bitcore'
+import bitcore from 'bitcore-lib'
 
 let Transaction = bitcore.Transaction
 let cdefClss = cclib.definitions.Manager.getColorDefinitionClasses()
@@ -51,6 +52,7 @@ let SQL = {
  * @class ScanData
  * @mixes ReadyMixin
  */
+@mixin(ReadyMixin)
 export default class ScanData {
   /**
    * @constructor
@@ -179,6 +181,3 @@ export default class ScanData {
     }
   }
 }
-
-let ReadyMixin = initReadyPromise(Promise)
-ReadyMixin(ScanData.prototype)

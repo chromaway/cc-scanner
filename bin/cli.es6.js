@@ -5,7 +5,7 @@ import yargs from 'yargs'
 import fs from 'fs'
 import Yaml from 'js-yaml'
 import ProgressBar from 'progress'
-import bitcore from 'bitcore'
+import bitcore from 'bitcore-lib'
 
 import Bitcoind from '../lib/bitcoind'
 import ScanData from '../lib/scandata'
